@@ -56,7 +56,7 @@ contract FourInARow{
         uint8 i = c[msg.sender];
         bytes32 sec = lobby[msg.sender][i];
         GAME storage g = games[sec];
-        if(g.alt == true){
+        if(g.alt == false){
             turn = "Player 1";
         } else {
             turn = "Player 2";
