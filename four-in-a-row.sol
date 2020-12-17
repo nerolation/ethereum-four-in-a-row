@@ -9,7 +9,7 @@ contract FourInARow{
     event GameJoin(address indexed p2, bytes32 indexed lobby); 
     event Move(address indexed p, bytes32 indexed lobby, uint8 move); 
     event GameEnd(address indexed winner, address indexed looser, bytes32 lobby); 
-    
+
     modifier onlyGamers {
         require(lobby[msg.sender][c[msg.sender]] != bytes32(0), "No Game initiated");
         _;
@@ -32,8 +32,10 @@ contract FourInARow{
         uint8 [7][5] board;
     }
     
+    
     function initGame() public {
         uint8 i = c[msg.sender];
+        require(games[lobby[msg.sender][i]].player1 == address(0), "Game already initiated");
         bytes32 sec = keccak256(abi.encodePacked(msg.sender, block.timestamp));
         lobby[msg.sender][i] = sec;
         GAME storage g = games[sec];
@@ -139,6 +141,7 @@ contract FourInARow{
             emit GameEnd(msg.sender, looser, sec);
             return true;
         }
+        
         return false;
     }
 }
