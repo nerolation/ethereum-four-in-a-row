@@ -54,7 +54,7 @@ contract FourInARow{
         emit GameJoin(msg.sender, sec);
     }
     
-    function getGame() public view returns(uint8 [7][5] memory, string memory turn) {
+    function getBoard() public view returns(uint8 [7][5] memory, string memory turn) {
         uint8 i = c[msg.sender];
         bytes32 sec = lobby[msg.sender][i];
         GAME storage g = games[sec];
@@ -64,6 +64,13 @@ contract FourInARow{
             turn = "Player 2";
         }
         return (g.board, turn);
+    }
+    
+    function getGame() public view returns(address, address, bool, bool) {
+        uint8 i = c[msg.sender];
+        bytes32 sec = lobby[msg.sender][i];
+        GAME storage g = games[sec];
+        return (g.player1, g.player2, g.alt,  g.ended);
     }
     
     function move(uint8 _move) public onlyGamers {
@@ -79,7 +86,7 @@ contract FourInARow{
         } else {
             require(g.alt == true, "Other player's turn");
             _player = 2;
-            g.alt = true;
+            g.alt = false;
         }
         uint8 rowcount = 0;
         
