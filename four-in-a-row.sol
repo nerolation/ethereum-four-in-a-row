@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity =0.7.4;
+pragma solidity =0.8.0;
 
 
 contract FourInARow{
@@ -49,6 +49,7 @@ contract FourInARow{
         bytes32 sec = lobby[_addr][j];
         lobby[msg.sender][i] = sec;
         GAME storage g = games[sec];
+        require(g.player2 == address(0), "Game already full");
         require(g.player1 != msg.sender, "Player 1 cannot be Player 2");
         g.player2 = msg.sender;
         emit GameJoin(msg.sender, sec);
