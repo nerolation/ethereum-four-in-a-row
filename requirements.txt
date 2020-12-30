@@ -12,7 +12,6 @@ cffi==1.14.4
 chardet==3.0.4
 click==7.1.2
 cryptography==2.1.4
-cupshelpers==1.0
 decorator==4.4.2
 defer==1.0.6
 defusedxml==0.6.0
