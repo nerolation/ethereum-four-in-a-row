@@ -2,7 +2,6 @@ asn1crypto==0.24.0
 beautifulsoup4==4.6.0
 chardet==3.0.4
 cryptography==2.1.4
-duplicity==0.7.17
 enum34==1.1.6
 fasteners==0.12.0
 html5lib==0.999999999
