@@ -14,7 +14,6 @@ lxml==4.2.1
 monotonic==1.0
 numpy==1.13.3
 pycrypto==2.6.1
-pygobject==3.26.1
 pyxdg==0.25
 scour==0.36
 SecretStorage==2.3.1
