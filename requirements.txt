@@ -15,7 +15,6 @@ cryptography==2.1.4
 decorator==4.4.2
 defusedxml==0.6.0
 distlib==0.3.0
-distro-info===0.18ubuntu0.18.04.1
 entrypoints==0.3
 eth-hash==0.2.0
 filelock==3.0.12
