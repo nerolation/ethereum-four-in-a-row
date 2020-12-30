@@ -149,7 +149,6 @@ contract FourInARow{
             emit GameEnd(msg.sender, looser, sec);
             return true;
         }
-        
         return false;
     }
 }
