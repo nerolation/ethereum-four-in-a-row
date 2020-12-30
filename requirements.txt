@@ -41,7 +41,6 @@ jupyterlab-pygments==0.1.2
 jupyterlab-server==1.2.0
 keyring==10.6.0
 keyrings.alt==3.0
-language-selector==0.1
 launchpadlib==1.10.6
 lazr.restfulclient==0.13.5
 lazr.uri==1.0.3
@@ -95,7 +94,6 @@ requests==2.25.0
 requests-unixsocket==0.1.5
 s3transfer==0.3.3
 scour==0.36
-screen-resolution-extra==0.0.0
 SecretStorage==2.3.1
 Send2Trash==1.5.0
 simplejson==3.13.2
@@ -106,7 +104,6 @@ terminado==0.9.1
 testpath==0.4.4
 tornado==6.1
 traitlets==4.3.3
-ubuntu-drivers-common==0.0.0
 ufw==0.36
 unattended-upgrades==0.1
 urllib3==1.26.2
