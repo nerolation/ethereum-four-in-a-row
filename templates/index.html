@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
+	<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+	<title></title>
+	<style type="text/css">
+	body, html {
+	width: 100%;
+    height: 100%;
+    font-family: Ubuntu, sans-serif;
+    background-color: #6495ed;
+	}
+
+	.circle {
+    background-color: black;
+    width: 100%;
+    height: 80%;
+    border-radius: 50%;
+	cursor: pointer;
+    }
+    .circle:hover {
+    background-color: #868686;
+    }
+    .circle_move {
+    background-color: white;
+    animation-name: example;
+    animation-duration: 1s;
+	}
+
+	@keyframes example {
+  0%   {margin-top:-700%}
+  10%  {margin-top:-630%}
+  20%  {margin-top:-560%}
+  30%  {margin-top:-490%}
+  40%  {margin-top:-420%}
+  50%  {margin-top:-350%}
+  60%  {margin-top:-280%}
+  70%  {margin-top:-210%}
+  80%  {margin-top:-140%}
+  90%  {margin-top:-70%}
+  100%  {margin-top:0%}
+}
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close, .closeInit, .closeError {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus,.closeInit:hover,
+.closeInit:focus,.closeError:hover,
+.closeError:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+th, td {
+  border-collapse: collapse;
+  border-width: 2pt;
+}
+.lds-spinner {
+  color: official;
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-spinner div {
+  transform-origin: 40px 40px;
+  animation: lds-spinner 1.2s linear infinite;
+}
+.lds-spinner div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 37px;
+  width: 6px;
+  height: 18px;
+  border-radius: 20%;
+  background: #fff;
+}
+.lds-spinner div:nth-child(1) {
+  transform: rotate(0deg);
+  animation-delay: -1.1s;
+}
+.lds-spinner div:nth-child(2) {
+  transform: rotate(30deg);
+  animation-delay: -1s;
+}
+.lds-spinner div:nth-child(3) {
+  transform: rotate(60deg);
+  animation-delay: -0.9s;
+}
+.lds-spinner div:nth-child(4) {
+  transform: rotate(90deg);
+  animation-delay: -0.8s;
+}
+.lds-spinner div:nth-child(5) {
+  transform: rotate(120deg);
+  animation-delay: -0.7s;
+}
+.lds-spinner div:nth-child(6) {
+  transform: rotate(150deg);
+  animation-delay: -0.6s;
+}
+.lds-spinner div:nth-child(7) {
+  transform: rotate(180deg);
+  animation-delay: -0.5s;
+}
+.lds-spinner div:nth-child(8) {
+  transform: rotate(210deg);
+  animation-delay: -0.4s;
+}
+.lds-spinner div:nth-child(9) {
+  transform: rotate(240deg);
+  animation-delay: -0.3s;
+}
+.lds-spinner div:nth-child(10) {
+  transform: rotate(270deg);
+  animation-delay: -0.2s;
+}
+.lds-spinner div:nth-child(11) {
+  transform: rotate(300deg);
+  animation-delay: -0.1s;
+}
+.lds-spinner div:nth-child(12) {
+  transform: rotate(330deg);
+  animation-delay: 0s;
+}
+@keyframes lds-spinner {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+table.infoTable {
+  border: 1px solid #000000;
+  width: 80%;
+  text-align: center;
+  border-collapse: collapse;
+}
+table.infoTable td, table.infoTable th {
+  padding: 6px 0px;
+}
+table.infoTable tbody td {
+  font-size: 13px;
+}
+table.infoTable thead {
+  background: #030B11;
+  background: -moz-linear-gradient(top, #42484c 0%, #1c2328 66%, #030B11 100%);
+  background: -webkit-linear-gradient(top, #42484c 0%, #1c2328 66%, #030B11 100%);
+  background: linear-gradient(to bottom, #42484c 0%, #1c2328 66%, #030B11 100%);
+  border-bottom: 2px solid #444444;
+}
+table.infoTable thead th {
+  font-size: 15px;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-align: center;
+}
+table.infoTable tfoot td {
+  font-size: 14px;
+}
+.block {
+  display: block;
+  width: 80%;
+  border: none;
+  background-color: black;
+  color: white;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+.block:hover {
+  background-color: #868686;
+}
+	</style>
+
+
+</head>
+<body>
+	<script>
+var mv = 0;
+
+window.addEventListener('load', function() {
+	var modal = document.getElementById("myModal");
+	var modal2 = document.getElementById("myModal2");
+	var pendingModal = document.getElementById("pendingModal");
+	var btn1 = document.getElementById("Btn1");
+	var btn2 = document.getElementById("Btn2");
+	var btn3 = document.getElementById("Btn3");
+	var btn4 = document.getElementById("Btn4");
+	var claimWin = document.getElementById("claimWin");
+	var span = document.getElementsByClassName("close")[0];
+	var span2 = document.getElementsByClassName("close")[1];
+	window['player'] = 0;
+	window['p1'] = undefined;
+    window['p2'] = undefined;
+    if (document.cookie.indexOf('user=') != -1) {
+        window['un'] = document.cookie.split('user=')[1].split(';')[0]
+        window['address'] = document.cookie.split('addr=')[1].split(';')[0]
+
+		var xhr_game = new XMLHttpRequest();
+        xhr_game.open("POST", "/getGame");
+        xhr_game.send();
+        xhr_game.onreadystatechange = function() {
+            if (xhr_game.readyState === 4) {
+            	console.log("Game sucessfully loaded");
+                res = JSON.parse(xhr_game.responseText);
+                window['p1'] = res[0]||undefined;
+                if (p1 == "0x0000000000000000000000000000000000000000") {
+                	p1 = undefined;
+                }
+                window['p2'] = res[1]||undefined;
+                if (p2 == "0x0000000000000000000000000000000000000000") {
+                	p2 = undefined;
+                }
+                window['GameAlt'] = res[2]||undefined;
+                window['GameEnd'] = res[3]||undefined;
+                var header_game = document.getElementById("header_game");
+                header_game.children[0].textContent = "Game info:";
+                if ((p1 == undefined) && (p2 == undefined)) {
+                	header_game.children[1].textContent = "No Game initiated or joined";
+                } else {
+                	header_game.children[1].textContent = "Player 1: \r" + (p1||"No Game initiated") + "\rPlayer 2: \r" + p2||"No Player 2 joined yet";
+                }
+                header_game.style.display = "block";
+            }
+        }
+
+        var xhr_board = new XMLHttpRequest();
+        xhr_board.open("POST", "/getBoard");
+        xhr_board.send([un]);
+        pendingModal.style.display = "block";
+        xhr_board.onreadystatechange = function() {
+        	pendingModal.style.display = "none";
+            if (xhr_board.readyState === 4) {
+            	console.log("Board sucessfully loaded");
+                res = JSON.parse(xhr_board.responseText);
+                // Some Variables
+                var color;
+                var player = parseInt(res[1]);
+                window["player"] = player
+                // Get Board
+                var board = res[0] || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                if (board.reduce((a, b) => a + b, 0) > 0) {
+                    board.forEach(function(f, i) {
+                        if (f != 0) {
+                            e = document.querySelector("#circle" + i);
+                            if (f == 1) {
+                                color = "green";
+                            } else {
+                                color = "red";
+                            }
+                            e.style.backgroundColor = color;
+                        }
+                    });
+                } else {
+                    if ((document.cookie.indexOf("login=1") != -1) && (document.cookie.indexOf("c=1") == -1) && (!p1)) {
+                        var modal2 = document.getElementById("myModal2");
+                        var yu = document.getElementById("yu");
+                        var yi = document.getElementById("yi");
+                        yu.style.display = "none";
+                        yi.textContent = "Get Started...";
+                        yi.style.textAlign = "center";
+                        modal2.style.display = "block";
+                    }
+                    if ((document.cookie.indexOf("c=1") != -1) && (!p1) && (!p2)) {
+						modal2.style.display = "block";
+						var addr_elem = document.getElementById("created_addr");
+						window['address'] = document.cookie.split('addr=')[1].split(';')[0]
+						addr_elem.textContent = "Address: \r" + address;
+					}
+                }
+
+                // Assign Color
+                if (player == 1) {
+                    color = "green";
+                    othercolor = "red";
+                } else {
+                    color = "red";
+                    othercolor = "green";
+                }
+
+                if (player != 0 && mv != 0) {
+                    var e = document.querySelector("#circle" + mv);
+                    e.style.backgroundColor = color;
+                    e.classList.add("circle_move")
+                }
+            }
+        }
+    } // end if(document.cookie.indexOf('user=') != -1)
+
+    if ((document.cookie.indexOf("addr=") != -1) && (document.cookie.indexOf("user=") != -1)) {
+        var header_addr = document.getElementById("header_addr");
+        var header_un = document.getElementById("header_un");
+
+        header_addr.children[1].textContent = address;
+        header_un.textContent = "USER: " + un;
+        header_addr.style.display = "block";
+        header_un.style.display = "block";
+    }
+
+    if ((document.cookie.indexOf("c=1") == -1) && (document.cookie.indexOf("user=") == -1)) {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    span2.onclick = function() {
+        modal2.style.display = "none";
+    }
+
+
+    window.onclick = function(event) {
+        if (event.target == modal || event.target == modal2 || event.target == errorModal) {
+            modal.style.display = "none";
+            modal2.style.display = "none";
+            errorModal.style.display = "none";
+        }
+    }
+
+    Btn1.onclick = function() {
+        modal2.style.display = "none";
+        var xhr_init1 = new XMLHttpRequest();
+        xhr_init1.open("POST", "/init");
+        xhr_init1.send([un || undefined]);
+        pendingModal.style.display = "block";
+        xhr_init1.onreadystatechange = function() {
+        	if (xhr_init1.readyState === 4) {
+				pendingModal.style.display = "none";
+				res = xhr_init1.responseText;
+				if (res.indexOf("execution reverted") != -1) {
+                        //ERROR
+                        var errorModal = document.getElementById("errorModal");
+                        var span4 = document.getElementsByClassName("closeError")[0];
+                        var errorText = document.getElementById("errorText");
+                        errorText.textContent = res;
+                        errorModal.style.display = "block";
+                        span4.onclick = function() {
+                            errorModal.style.display = "none";
+                        }
+                } else {
+                	document.cookie = "c=0";
+					var tbodyRef = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
+					var newRow = tbodyRef.insertRow(tbodyRef.childElementCount);
+					var c1 = newRow.insertCell(0);
+					var c2 = newRow.insertCell(1);
+					var c3 = newRow.insertCell(2);
+					var c4 = newRow.insertCell(3);
+					c1.innerText = new Date().toLocaleTimeString();
+					c2.innerText = un;
+					c3.innerText = "Initialization";
+					var linkRopsten = "<a target='_blank' href = 'https://ropsten.etherscan.io/tx/" + res + "'>" + "Show on Etherscan</a>";
+					c4.innerHTML = linkRopsten;
+					var tbodyRef = document.getElementById('infoTable').style.display = "revert";
+                }
+			}
+		}
+    }
+    Btn3.onclick = function() {
+    	var ja = document.getElementById("ja").value;
+        modal2.style.display = "none";
+        var xhr_join = new XMLHttpRequest();
+        xhr_join.open("POST", "/join");
+        xhr_join.send([un, ja]);
+        pendingModal.style.display = "block";
+		xhr_join.onreadystatechange = function() {
+			if (xhr_join.readyState === 4) {
+				pendingModal.style.display = "none";
+				header_game.children[1].textContent = "Game joined. Refresh page for info.";
+				res = xhr_join.responseText;
+				if (res.indexOf("execution reverted") != -1) {
+                        //ERROR
+                        var errorModal = document.getElementById("errorModal");
+                        var span4 = document.getElementsByClassName("closeError")[0];
+                        var errorText = document.getElementById("errorText");
+                        errorText.textContent = res;
+                        errorModal.style.display = "block";
+                        span4.onclick = function() {
+                            errorModal.style.display = "none";
+                        }
+                } else {
+                	var tbodyRef = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
+					var newRow = tbodyRef.insertRow(tbodyRef.childElementCount);
+					var c1 = newRow.insertCell(0);
+					var c2 = newRow.insertCell(1);
+					var c3 = newRow.insertCell(2);
+					var c4 = newRow.insertCell(3);
+					c1.innerText = new Date().toLocaleTimeString();
+					c2.innerText = un;
+					c3.innerText = "Join";
+					var linkRopsten = "<a target='_blank' href = 'https://ropsten.etherscan.io/tx/" + res + "'>" + "Show on Etherscan</a>";
+					c4.innerHTML = linkRopsten;
+					var tbodyRef = document.getElementById('infoTable').style.display = "revert";
+                }
+			}
+		}
+    }
+    Btn4.onclick = function() {
+        modal2.style.display = "none";
+        var xhr_rand = new XMLHttpRequest();
+        xhr_rand.open("POST", "/randomgame");
+        xhr_rand.send([un || undefined]);
+        pendingModal.style.display = "block";
+        xhr_rand.onreadystatechange = function() {
+        	pendingModal.style.display = "none";
+			if (xhr_rand.readyState === 4) {
+				var date = new Date();
+				date.setTime(date.getTime()+(30*60*1000));
+				var expires = "; expires="+date.toGMTString();
+				document.cookie = "rg = 1" + expires + "; path=/;SameSite=Lax";
+				document.cookie = "c=0";
+				header_game.children[1].textContent = "Game initialized. Refresh page for info.";
+				res = xhr_rand.responseText;
+				if (res.indexOf("execution reverted") != -1) {
+                        //ERROR
+                        var errorModal = document.getElementById("errorModal");
+                        var span4 = document.getElementsByClassName("closeError")[0];
+                        var errorText = document.getElementById("errorText");
+                        errorText.textContent = res;
+                        errorModal.style.display = "block";
+                        span4.onclick = function() {
+                            errorModal.style.display = "none";
+                        }
+                } else {
+                	var res = JSON.parse(xhr_rand.responseText);
+                	var tbodyRef = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
+					var newRow = tbodyRef.insertRow(tbodyRef.childElementCount);
+					var c1 = newRow.insertCell(0);
+					var c2 = newRow.insertCell(1);
+					var c3 = newRow.insertCell(2);
+					var c4 = newRow.insertCell(3);
+					c1.innerText = new Date().toLocaleTimeString();
+					c2.innerText = un;
+					c3.innerText = "Initialization";
+					var linkRopsten = "<a target='_blank' href = 'https://ropsten.etherscan.io/tx/" + res[0] + "'>" + "Show on Etherscan</a>";
+					c4.innerHTML = linkRopsten;
+					var newRow = tbodyRef.insertRow(tbodyRef.childElementCount);
+					var c1 = newRow.insertCell(0);
+					var c2 = newRow.insertCell(1);
+					var c3 = newRow.insertCell(2);
+					var c4 = newRow.insertCell(3);
+					c1.innerText = new Date().toLocaleTimeString();
+					c2.innerText = "Randy";
+					c3.innerText = "Join";
+					var linkRopsten = "<a target='_blank' href = 'https://ropsten.etherscan.io/tx/" + res[1] + "'>" + "Show on Etherscan</a>";
+					c4.innerHTML = linkRopsten;
+                }
+			}
+        }
+    }
+
+
+    window.addEventListener("click", function(element) {
+        var color;
+        if (player == 1) {
+            color = "green";
+        } else {
+            color = "red";
+        }
+        var targetElement = event.target || event.srcElement;
+        if (targetElement.className == "TD") {
+            targetElement = targetElement.firstChild;
+        }
+        if ((targetElement.className.indexOf("circle") != -1) && (!["red", "green"].includes(targetElement.style["backgroundColor"]))) {
+            var mv = parseInt(targetElement.id.split("circle")[1]);
+            _mv = JSON.parse(JSON.stringify(mv))
+            if ([7, 14, 21, 28].includes(mv)) {
+                _mv = 0
+            }
+            if ([8, 15, 22, 29].includes(mv)) {
+                var _mv = 1
+            }
+            if ([9, 16, 23, 30].includes(mv)) {
+                _mv = 2
+            }
+            if ([10, 17, 24, 31].includes(mv)) {
+                _mv = 3
+            }
+            if ([11, 18, 25, 32].includes(mv)) {
+                _mv = 4
+            }
+            if ([12, 19, 26, 33].includes(mv)) {
+                _mv = 5
+            }
+            if ([13, 20, 27, 34].includes(mv)) {
+                _mv = 6
+            }
+            var xhr_move = new XMLHttpRequest();
+            var path = "/move";
+            if (document.cookie.indexOf("rg=1") != -1) {
+            	path = "/moverand"
+            }
+            xhr_move.open("POST", path);
+            xhr_move.send([_mv, un, p1]);
+            pendingModal.style.display = "block";
+            xhr_move.onreadystatechange = function() {
+            	pendingModal.style.display = "none";
+                if (xhr_move.readyState === 4) {
+                    var res = JSON.parse(xhr_move.responseText);
+                    if (res[0].indexOf("execution reverted") != -1) {
+                        //ERROR
+                        var errorModal = document.getElementById("errorModal");
+                        var span4 = document.getElementsByClassName("closeError")[0];
+                        var errorText = document.getElementById("errorText");
+                        errorText.textContent = res;
+                        errorModal.style.display = "block";
+                        span4.onclick = function() {
+                            errorModal.style.display = "none";
+                        }
+                    } else {
+                    	var tbodyRef = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
+                    	var newRow = tbodyRef.insertRow(tbodyRef.childElementCount);
+						var c1 = newRow.insertCell(0);
+						var c2 = newRow.insertCell(1);
+						var c3 = newRow.insertCell(2);
+						var c4 = newRow.insertCell(3);
+						c1.innerText = new Date().toLocaleTimeString();
+						c2.innerText = un;
+						c3.innerText = "Move";
+						var linkRopsten = "<a target='_blank' href = 'https://ropsten.etherscan.io/tx/" + res[0] + "'>" + "Show on Etherscan</a>";
+						c4.innerHTML = linkRopsten;
+						var tbodyRef = document.getElementById('infoTable').getElementsByTagName('tbody')[0];
+						var newRow = tbodyRef.insertRow(tbodyRef.childElementCount);
+						var c1 = newRow.insertCell(0);
+						var c2 = newRow.insertCell(1);
+						var c3 = newRow.insertCell(2);
+						var c4 = newRow.insertCell(3);
+						c1.innerText = new Date().toLocaleTimeString();
+						c2.innerText = "randy";
+						c3.innerText = "Move";
+						var linkRopsten = "<a target='_blank' href = 'https://ropsten.etherscan.io/tx/" + res[1] + "'>" + "Show on Etherscan</a>";
+						c4.innerHTML = linkRopsten;
+						var tbodyRef = document.getElementById('infoTable').style.display = "revert";
+                    }
+                    if (res[0].indexOf("0x") != -1) {
+                        //SUCCESS
+                        targetElement.style.backgroundColor = color;
+                        targetElement.classList.add("circle_move");
+                    } else {
+						if (othercolor == "green") {
+							othercolor = "red";
+						} else {
+							color = "green";
+						}
+                    }
+                    if (path == "/moverand") {
+                    	var rm = res[2];
+                    	if (rm == 0) {
+                    		for (var i in [0, 7, 14, 21, 28]) {
+                    			var test = document.getElementById(("circle" + [0, 7, 14, 21, 28][i])).style.backgroundColor||null;
+                    			if (!test) {
+                    				var tar = [0, 7, 14, 21, 28][i];
+                    				break;
+                    			}
+                    		}
+                    	}
+                    	if (rm == 1) {
+                    		for (var i in [1, 8, 15, 22, 29]) {
+                    			var test = document.getElementById(("circle" + [1, 2, 15, 22, 29][i])).style.backgroundColor||null;
+                    			if (!test) {
+                    				var tar = [1, 2, 15, 22, 29][i];
+                    				break;
+                    			}
+                    		}
+                    	}
+                    	if (rm == 2) {
+                    		for (var i in [2, 9, 16, 23, 30]) {
+                    			var test = document.getElementById(("circle" + [2, 9, 16, 23, 30][i])).style.backgroundColor||null;
+
+                    			if (!test) {
+                    				var tar = [2, 9, 16, 23, 30][i];
+                    				break;
+                    			}
+                    		}
+                    	}
+                    	if (rm == 3) {
+                    		for (var i in [3, 10, 17, 24, 31]) {
+                    			var test = document.getElementById(("circle" + [3, 10, 17, 24, 31][i])).style.backgroundColor||null;
+
+                    			if (!test) {
+                    				var tar = [3, 10, 17, 24, 31][i];
+                    				break;
+                    			}
+                    		}
+                    	}
+                    	if (rm == 4) {
+                    		for (var i in [4, 11, 18, 25, 32]) {
+                    			var test = document.getElementById(("circle" + [4, 11, 18, 25, 32][i])).style.backgroundColor||null;
+
+                    			if (!test) {
+                    				var tar = [4, 11, 18, 25, 32][i];
+                    				break;
+                    			}
+                    		}
+                    	}
+                    	if (rm == 5) {
+                    		for (var i in [5, 12, 19, 26, 33]) {
+                    			var test = document.getElementById(("circle" + [5, 12, 19, 26, 33][i])).style.backgroundColor||null;
+
+                    			if (!test) {
+                    				var tar = [5, 12, 19, 26, 33][i];
+                    				break;
+                    			}
+                    		}
+                    	}
+                    	if (rm == 6) {
+                    		for (var i in [6, 13, 20, 27, 34]) {
+                    			var test = document.getElementById(("circle" + [6, 13, 20, 27, 34][i])).style.backgroundColor||null;
+
+                    			if (!test) {
+                    				var tar = [6, 13, 20, 27, 34][i];
+                    				break;
+                    			}
+                    		}
+                    	}
+						var randy = document.getElementById("circle" + tar)
+						randy.style.backgroundColor = othercolor;
+						randy.classList.add("circle_move");
+                    }
+                }
+            }
+        }
+    });
+    claimWin.onclick = function() {
+        var xhr_claim = new XMLHttpRequest();
+        xhr_claim.open("POST", "/claimWin");
+        xhr_claim.send([un, p1]);
+        pendingModal.style.display = "block";
+        xhr_claim.onreadystatechange = function() {
+        	if (xhr_claim.readyState === 4) {
+				pendingModal.style.display = "none";
+				res = xhr_claim.responseText;
+				if (res.indexOf("false") != -1) {
+                        //ERROR
+                        var errorModal = document.getElementById("errorModal");
+                        var span4 = document.getElementsByClassName("closeError")[0];
+                        var errorText = document.getElementById("errorText");
+                        errorText.textContent = "Game not won yet";
+                        errorModal.style.display = "block";
+                        span4.onclick = function() {
+                            errorModal.style.display = "none";
+                        }
+                } else {
+                	var errorModal = document.getElementById("errorModal");
+                	document.getElementById("errorHead").innerText = " < Success >"
+					var span4 = document.getElementsByClassName("closeError")[0];
+					var errorText = document.getElementById("errorText");
+					errorText.textContent = "Congrats, you've won!";
+					errorModal.style.display = "block";
+					span4.onclick = function() {
+						errorModal.style.display = "none";
+					}
+					header_game.children[1].textContent = "Game finished";
+                }
+			}
+		}
+    }
+
+});
+	</script>
+
+
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+	  <p><b>Welcome!</b> </p>
+	  <p>Insert Username:</p>
+	  <form name="user" method="post" action="/user">
+	  <input type="text" id="username" name="username" ><br>
+	  <p>Insert Private Key:</p>
+	  <input type="text" id="pk" name="pk" value="323edea0bd8e25201c83a307bdb899910b5b9105b918fc7176b406948ee9b08b"><br><br>
+	  <button type="submit" id="Btn">Login || Create new user</button></form>
+	  <p style = "font-size: 8pt;">Your username is unique and can only be used once. It is hashed together with some random values,
+		  and after submitting, you will be provided with the account details linked to your username.
+		  In future, use your username to login into your existing connect-four games. <br> If you want to use a custom private key and link it to an username,
+		  insert it in the second textbox. </p>
+  </div>
+</div>
+
+<div id="myModal2" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+
+	  <p id="yi"><b>Your username was linked to an Ethereum account</b> </p>
+	  <div id="yu" ><p>Your details:</p>
+	  <p><textarea id="created_addr" style = "width: 95%;"cols="1" rows="3" readonly="readonly"></textarea></p>
+	  <p><textarea style = "width: 95%;"cols="1" rows="5" readonly="readonly">Private Key: {{pk}}</textarea></p>
+	  <p style = "font-size: 8pt;">Use the address to fund your account in order to start playing (and pay for the gas fees).</p>
+	  <p style = "font-size: 8pt;">Use the  <a href="https://faucet.ropsten.be/">Ropsten Ethereum Faucet</a> for test ether.</p>
+	  </div><center>
+	  <button  type="submit" id="Btn1">Initialize new game</button>
+	  </center>
+	  <center>
+		  <hr>
+	  <button  type="submit" id="Btn3">Join game @ </button><br><br>
+	  <input type="text" id="ja" name="ja" value="0xc915A65E6BB9459381c551C688bF9Bd4f274c92B"><br></center>
+	  <center>
+		  <hr>
+	  <button  type="submit" id="Btn4">Quickstart against computer</button>
+	  </center>
+  </div>
+</div>
+
+<div id="errorModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="closeError">&times;</span>
+	  <center>
+	  <p id="errorHead"><b> < ERROR ></b> </p>
+	  <p id=errorText></p>
+	  </center>
+  </div>
+</div>
+<div id="pendingModal" class="modal">
+  <!-- Modal content -->
+	  <center>
+			<div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+	  </center>
+</div>
+
+<div style="background: white;width:80%;margin-left: 10%;">
+	<div id="header_un" style="font-weight: bold;display:none;font-size: 6pt;width:80%;margin-bottom: -3pt;"></div>
+	<div id="header_addr" style="width:80%;margin-bottom:-3pt">
+		<p style="font-weight: bold;font-size:6pt; margin-bottom: 2pt; ">CONNECTED ADDRESS:</p>
+		<textarea rows="1" style="font-size:6pt; width:100%;"></textarea>
+	</div>
+	<div id="header_game" style="background: white;font-weight: bold;display:none;font-size: 10pt;width:80%;margin-bottom: 2pt;">
+		<p style="font-weight: bold;font-size:7pt; width:80%;margin-bottom: 2pt;"></p>
+		<textarea rows="4" style="font-size:6pt; width:100%;"></textarea>
+	</div>
+</div>
+
+<table border="1" cellpadding="1" cellspacing="1" style="height:45%;width:80%;margin-left: 10%;border-color: white;border-width: 5pt;border-top: 3pt;">
+	<tbody>
+		<tr>
+			<td style="background-color:black;"><div class="circle" id="circle28"></td>
+			<td style="background-color:black;"><div class="circle" id="circle29"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle30"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle31"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle32"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle33"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle34"></div></td>
+		</tr>
+		<tr>
+			<td style="background-color:black;"><div class="circle" id="circle21"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle22"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle23"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle24"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle25"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle26"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle27"></div></td>
+		</tr>
+		<tr>
+			<td style="background-color:black;"><div class="circle" id="circle14"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle15"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle16"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle17"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle18"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle19"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle20"></div></td>
+		</tr>
+		<tr>
+			<td style="background-color:black;"><div class="circle" id="circle7"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle8"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle9"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle10"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle11"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle12"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle13"></div></td>
+		</tr>
+		<tr>
+			<td style="background-color:black;"><div class="circle" id="circle0"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle1"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle2"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle3"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle4"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle5"></div></td>
+			<td style="background-color:black;"><div class="circle" id="circle6"></div></td>
+		</tr>
+	</tbody>
+</table>
+	<center>
+		<button id="claimWin" type="button" class="block">Claim Win</button>
+	</center>
+<br><br>
+<center>
+
+	<table style="display:none" class="infoTable" id="infoTable">
+		<thead>
+			<tr>
+				<th>Date</th>
+				<th>User</th>
+				<th>Action</th>
+				<th>Transaction</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+</center>
+	<br>
+	<center>
+	<table style="display:revert" class="infoTable" id="userable">
+		<thead>
+			<tr>
+				<th>User</th>
+				<th>Address</th>
+				<th>Open Game</th>
+				<th>Games Won</th>
+				<th>Games Lost</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for value in users.keys() %}
+				<tr>
+					<td>
+						{{users[value]['username']}}
+					</td>
+					<td>
+						{{users[value]['address']}}
+					</td>
+					<td>
+						{{users[value]['openGame']}}
+					</td>
+					<td>
+						{{users[value]['wonGames']}}
+					</td>
+					<td>
+						{{users[value]['lostGames']}}
+					</td>
+				</tr>
+    		{% endfor %}
+		</tbody>
+	</table>
+</center>
+<p></p>
+</body>
+</html>
