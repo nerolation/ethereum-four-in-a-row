@@ -1,5 +1,4 @@
 appdirs==1.4.4
-apturl==0.5.2
 argon2-cffi==20.1.0
 asn1crypto==0.24.0
 async-generator==1.10
