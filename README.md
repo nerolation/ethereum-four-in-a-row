@@ -1,5 +1,7 @@
 
-# The classical Four in a Row/Connect Four game on Ethereum
+# The classical Four in a Row/Connect Four game on the Ethereum Testnet (Ropsten)
+
+# Play a round at [connect-four.toniwahrstaetter.com](http://connect-four.toniwahrstaetter.com/)
 
 The Solidity contract is capable of providing the underlying logic of a Four in a Row game, in which, on a grid with seven columns and 5 rows, two players try to form a horizontal, vertical or diagonal line of four discs to win. 
 
